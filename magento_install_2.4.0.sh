@@ -248,11 +248,11 @@ echo "OK"
 echo -n "Adding composer crendentials to magento home dir..."
 # Add composer crendentials to magento home dir
 
-# For composer 2 and above
+# For composer 1
 
 sudo -H -u ${MAGENTO_SYSTEM_USER} bash <<"EOF"
 cd
-mkdir -p ~/.config/composer
+mkdir -p ~/.composer
 echo '{
     "http-basic": {
         "repo.magento.com": {
@@ -260,7 +260,7 @@ echo '{
             "password": "d4b572998c3cad1beed8a4f0d3f9fa84"
         }
     }
-}' | tee ~/.config/composer/auth.json
+}' | tee ~/.composer/auth.json
 EOF
 
 echo "OK"
