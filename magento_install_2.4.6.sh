@@ -315,7 +315,7 @@ echo "Fix permission...OK"
 echo "######### Disable two factor"
 
 # Disable two factor
-sudo -H -u ${MAGENTO_SYSTEM_USER} bash -c "cd ${MAGENTO_DIR}; php bin/magento module:disable Magento_TwoFactorAuth; bin/magento cron:install"
+sudo -H -u ${MAGENTO_SYSTEM_USER} bash -c "cd ${MAGENTO_DIR}; php bin/magento module:disable Magento_AdminAdobeImsTwoFactorAuth Magento_TwoFactorAuth; bin/magento cron:install"
 
 echo "Restarting apache..."
 # Restart apache to apply all changes
