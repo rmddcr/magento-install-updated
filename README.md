@@ -51,8 +51,8 @@ system-user and system-password can be used to log into ftp server
     --site-name mydomain.com \
     --base-url http://mydomain.com \
     --system-user=magento \
-    --system-password=magento@123
-    --elasticsearch-host=localhost
+    --system-password=magento@123 \
+    --elasticsearch-host=localhost \
     --elasticsearch-port=8080
 ```
 
