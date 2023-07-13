@@ -35,6 +35,9 @@ Every argument is optional and default value will be applied if ommited.
 | --system-password   | Magento system user password                     | magento@123         |
 | --elasticsearch-host| Elasticsearch host                               | localhost           |
 | --elasticsearch-port| Elasticsearch port                               | 8080                |
+| --elasticsearch-index-prefix| Elasticsearch index                              | 8080                |
+| --elasticsearch-username| Elasticsearch user                               | 8080                |
+|--elasticsearch-password| Elasticsearch password                           | 8080                |
 
 
 system-user and system-password can be used to log into ftp server
@@ -52,8 +55,12 @@ system-user and system-password can be used to log into ftp server
     --base-url http://mydomain.com \
     --system-user=magento \
     --system-password=magento@123 \
-    --elasticsearch-host=localhost \
-    --elasticsearch-port=8080
+    --elasticsearch-host=149.3.3.3 \
+    --elasticsearch-port=8080 \
+    --elasticsearch-index-prefix=i011 \
+    --elasticsearch-username=es \
+    --elasticsearch-password=es123
+
 ```
 
 It will take a few minutes to complete.
