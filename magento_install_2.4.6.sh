@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 ### Config
 
@@ -23,6 +24,7 @@ MAGENTO_SYSTEM_PASSWORD=magento@123
 #Elasticsearch
 ELASTICSEARCH_HOST=localhost
 ELASTICSEARCH_PORT=8080
+ELASTICSEARCH_PASSWORD=es@123
 
 
 ## VERSIONS
@@ -71,6 +73,8 @@ while true ; do
 	    ELASTICSEARCH_HOST=$2 ; shift 2;;
 	    	--elasticsearch-port)
 	    ELASTICSEARCH_PORT=$2 ; shift 2;;
+	    	--elasticsearch-password)
+	    ELASTICSEARCH_PASSWORD=$2 ; shift 2;;
 
         --) shift ; break ;;
         *) echo "Internal error!" ; exit 1 ;;
@@ -97,7 +101,7 @@ apt-get update -q
 sudo add-apt-repository -y ppa:ondrej/php
 
 # Install 
-sudo apt-get install -yq \
+sudo apt-get install -yq  composer \
     apt-transport-https \
     openjdk-8-jdk \
     mysql-server=${MYSQL_VERSION} \
