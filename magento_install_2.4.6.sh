@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -ex
 
 ### Config
 
@@ -22,9 +22,12 @@ MAGENTO_SYSTEM_USER=magento
 MAGENTO_SYSTEM_PASSWORD=magento@123
 
 #Elasticsearch
-ELASTICSEARCH_HOST=localhost
+ELASTICSEARCH_HOST=localhost #IP or domain
 ELASTICSEARCH_PORT=8080
+ELASTICSEARCH_USERNAME=es
 ELASTICSEARCH_PASSWORD=es@123
+ELASTICSEARCH_INDEX_PREFIX=indexes1 #cannot use same
+
 
 
 ## VERSIONS
@@ -73,8 +76,12 @@ while true ; do
 	    ELASTICSEARCH_HOST=$2 ; shift 2;;
 	    	--elasticsearch-port)
 	    ELASTICSEARCH_PORT=$2 ; shift 2;;
+	    	--elasticsearch-username)
+	    ELASTICSEARCH_USERNAME=$2 ; shift 2;;
 	    	--elasticsearch-password)
 	    ELASTICSEARCH_PASSWORD=$2 ; shift 2;;
+	    	--elasticsearch-index-prefix)
+	    ELASTICSEARCH_INDEX_PREFIX=$2 ; shift 2;;
 
         --) shift ; break ;;
         *) echo "Internal error!" ; exit 1 ;;
@@ -101,7 +108,7 @@ apt-get update -q
 sudo add-apt-repository -y ppa:ondrej/php
 
 # Install 
-sudo apt-get install -yq  composer \
+sudo apt-get install -yq  composer certbot python3-certbot-apache\
     apt-transport-https \
     openjdk-8-jdk \
     mysql-server=${MYSQL_VERSION} \
@@ -298,8 +305,13 @@ sudo -H -u ${MAGENTO_SYSTEM_USER} bash -c "cd ${MAGENTO_DIR}; bin/magento setup:
 --language=en_US \
 --currency=USD \
 --timezone=Australia/Sydney \
+--search-engine=elasticsearch7 \
 --elasticsearch-host=${ELASTICSEARCH_HOST} \
 --elasticsearch-port=${ELASTICSEARCH_PORT} \
+--elasticsearch-enable-auth=1 \
+--elasticsearch-index-prefix=${ELASTICSEARCH_INDEX_PREFIX} \
+--elasticsearch-username=${ELASTICSEARCH_USERNAME} \
+--elasticsearch-password=${ELASTICSEARCH_PASSWORD} \
 --use-rewrites=1"
 
 echo "Initilise magento...OK"
@@ -312,7 +324,7 @@ find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {
 find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
 EOF
 
-chown -R ${MAGENTO_SYSTEM_USER}:www-data ${MAGENTO_DIR}
+chown -R ${MAGENTO_SYSTEM_USER}:www-data "/home/${MAGENTO_SYSTEM_USER}"
 
 echo "Fix permission...OK"
 
